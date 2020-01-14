@@ -1,7 +1,7 @@
 #ifndef VKPLAYGROUND_CALLBACKS_HPP
 #define VKPLAYGROUND_CALLBACKS_HPP
 
-#include "util.hpp"
+#include <util.hpp>
 #include <fmt/format.h>
 
 namespace vk_playground {

@@ -10,7 +10,7 @@ add_executable(VkPlayground src/main.cpp
         include/application.hpp
         src/application.cpp
         include/callbacks.hpp
-        include/util.hpp)
+        include/util.hpp include/shader.hpp src/shader.cpp)
 
 # target_compile_options(VkPlayground PUBLIC -Wall -Wextra -pedantic)
 

@@ -13,7 +13,8 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
-#include "callbacks.hpp"
+#include <shader.hpp>
+#include <callbacks.hpp>
 
 namespace vk_playground {
     class application {
@@ -21,7 +22,7 @@ namespace vk_playground {
         constexpr static const char* enabled_device_extensions[] = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
 
         constexpr static bool enable_validation_layers =
-#if _GLIBCXX_DEBUG
+#if defined(_GLIBCXX_DEBUG) || defined(DEBUG)
             true;
 #else
             false;
@@ -35,6 +36,8 @@ namespace vk_playground {
         std::vector<VkExtensionProperties> extensions{};
         std::vector<VkQueueFamilyProperties> queue_families{};
         std::vector<VkImage> swapchain_images{};
+        std::vector<VkImageView> swapchain_image_views{};
+        std::vector<VkFramebuffer> swapchain_framebuffers{};
 
         VkInstance instance{};
         VkDebugUtilsMessengerEXT debug_messenger{};
@@ -45,13 +48,17 @@ namespace vk_playground {
         VkCommandBuffer command_buffer{};
         VkSurfaceKHR surface{};
         VkSwapchainKHR swapchain{};
-
         struct final_swapchain {
             VkSurfaceFormatKHR format;
             VkPresentModeKHR present_mode;
             VkExtent2D resolution;
             std::uint32_t image_count;
         } swapchain_info{};
+        std::vector<shader> shader_modules{};
+        VkRenderPass render_pass{};
+        VkPipelineLayout pipeline_layout{};
+        VkPipeline graphics_pipeline{};
+        VkFence fence{};
 
         GLFWwindow* window{};
 
@@ -62,11 +69,19 @@ namespace vk_playground {
         void enable_all_extensions();
         void init_physical_device();
         void init_queues_families();
-        int get_graphics_queue_index() const;
+        size_t get_graphics_queue_index() const;
         void create_device();
         void init_command_pool();
         void init_command_buffer();
         void create_swapchain();
+        void create_image_views();
+        void create_shader_modules();
+        void create_render_pass();
+        void create_pipeline();
+        void create_framebuffer();
+        void create_fence();
+
+        void draw_frame();
 
     public:
         application() = default;
@@ -74,7 +89,7 @@ namespace vk_playground {
 
         void glfw_init();
         void vk_init();
-        void run() const;
+        void run();
     };
 } // namespace vk_playground
 

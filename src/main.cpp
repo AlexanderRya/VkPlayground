@@ -5,6 +5,6 @@ int main() {
     vk_playground::application app{};
     app.glfw_init();
     app.vk_init();
-    //eng.run();
+    app.run();
     return 0;
 }
