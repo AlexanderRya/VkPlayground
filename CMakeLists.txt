@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.15)
 project(VkPlayground)
 
+find_package(Vulkan REQUIRED)
+
 add_subdirectory(dependencies/glfw)
 add_subdirectory(dependencies/fmt)
 
@@ -19,7 +21,8 @@ add_executable(VkPlayground src/main.cpp
 target_include_directories(VkPlayground PRIVATE
         "dependencies/glfw/include"
         "dependencies/fmt/include"
-        "include")
+        "include"
+        ${Vulkan_INCLUDE_DIRS})
 
 if (WIN32)
     target_compile_definitions(VkPlayground PRIVATE _CRT_SECURE_NO_WARNINGS)
@@ -31,12 +34,14 @@ if (UNIX)
     endif()
 endif()
 
-set_target_properties(glfw fmt
-        PROPERTIES
-        COMPILE_OPTIONS -Wno-everything)
+if (UNIX)
+    set_target_properties(glfw fmt
+            PROPERTIES
+            COMPILE_OPTIONS -Wno-everything)
+endif()
 
 if (WIN32)
-    target_link_libraries (VkPlayground vulkan glfw fmt)
+    target_link_libraries (VkPlayground ${Vulkan_LIBRARIES} glfw fmt)
 elseif (UNIX)
-    target_link_libraries (VkPlayground vulkan glfw fmt pthread)
+    target_link_libraries (VkPlayground ${Vulkan_LIBRARIES} glfw fmt pthread)
 endif()

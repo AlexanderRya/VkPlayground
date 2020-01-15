@@ -1,0 +1,2 @@
+glslc --target-env=vulkan1.1 resources/shaders/triangle.vert -o resources/shaders/compiled/triangle_vert.spv
+glslc --target-env=vulkan1.1 resources/shaders/triangle.frag -o resources/shaders/compiled/triangle_frag.spv

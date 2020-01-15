@@ -24,7 +24,7 @@ namespace vk_playground {
         constexpr static const int max_frames_in_flight = 2;
 
         constexpr static bool enable_validation_layers =
-#if defined(_GLIBCXX_DEBUG) || defined(DEBUG)
+#if defined(_GLIBCXX_DEBUG) || defined(_DEBUG)
             true;
 #else
             false;
@@ -63,6 +63,8 @@ namespace vk_playground {
 
         std::vector<VkSemaphore> image_available{};
         std::vector<VkSemaphore> render_finish{};
+        std::vector<VkFence> frames_in_flight{};
+        std::vector<VkFence> images_in_flight{};
 
         GLFWwindow* window{};
 
