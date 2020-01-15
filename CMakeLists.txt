@@ -10,7 +10,9 @@ add_executable(VkPlayground src/main.cpp
         include/application.hpp
         src/application.cpp
         include/callbacks.hpp
-        include/util.hpp include/shader.hpp src/shader.cpp)
+        include/util.hpp
+        include/shader.hpp
+        src/shader.cpp)
 
 # target_compile_options(VkPlayground PUBLIC -Wall -Wextra -pedantic)
 
@@ -35,6 +37,6 @@ set_target_properties(glfw fmt
 
 if (WIN32)
     target_link_libraries (VkPlayground vulkan glfw fmt)
-elseif(UNIX)
+elseif (UNIX)
     target_link_libraries (VkPlayground vulkan glfw fmt pthread)
 endif()

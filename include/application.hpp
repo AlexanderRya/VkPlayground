@@ -21,6 +21,8 @@ namespace vk_playground {
         constexpr static const char* enabled_layers[] = { "VK_LAYER_KHRONOS_validation" };
         constexpr static const char* enabled_device_extensions[] = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
 
+        constexpr static const int max_frames_in_flight = 2;
+
         constexpr static bool enable_validation_layers =
 #if defined(_GLIBCXX_DEBUG) || defined(DEBUG)
             true;
@@ -45,7 +47,7 @@ namespace vk_playground {
         VkDevice device{};
         VkQueue queue_handle{};
         VkCommandPool command_pool{};
-        VkCommandBuffer command_buffer{};
+        std::vector<VkCommandBuffer> command_buffers{};
         VkSurfaceKHR surface{};
         VkSwapchainKHR swapchain{};
         struct final_swapchain {
@@ -58,7 +60,9 @@ namespace vk_playground {
         VkRenderPass render_pass{};
         VkPipelineLayout pipeline_layout{};
         VkPipeline graphics_pipeline{};
-        VkFence fence{};
+
+        std::vector<VkSemaphore> image_available{};
+        std::vector<VkSemaphore> render_finish{};
 
         GLFWwindow* window{};
 
@@ -79,7 +83,7 @@ namespace vk_playground {
         void create_render_pass();
         void create_pipeline();
         void create_framebuffer();
-        void create_fence();
+        void create_semaphores();
 
         void draw_frame();
 
